@@ -2,7 +2,6 @@
 //ini_set("display_errors", "1");
 //
 //error_reporting(E_ALL);
-//3991fbcf7d4a3ffc180e36e462f349b52854995c my api key
     session_start();
 
 //    if(!empty($_POST)) {
