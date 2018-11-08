@@ -2,17 +2,8 @@
 
     Class Users
     {
-        //для авторизации
-//        private $login;
-//        private $password;
         //хранима данные тут
         private $data;
-
-//        public function __construct($login, $password)
-//        {
-//            $this->login = $login;
-//            $this->password = $password;
-//        }
 
         public function getData()
         {
