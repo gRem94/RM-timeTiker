@@ -2,7 +2,6 @@
 
     Class Curl
     {
-
         private $url;
         //Массив с пользовательскими данными
         private $data_issues;
@@ -83,8 +82,6 @@
                     }
                 }
             #=====================Старый таймер===================
-
-
         }
 
         public function getTimeEntries($api_key)
