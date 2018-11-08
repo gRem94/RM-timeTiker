@@ -26,12 +26,7 @@
         {
             return $this->data_time_entries;
         }
-
-//        public function getUserAPI(){
-//            return $this->user['api_key'];
-//        }
-
-
+        
         public function getIssues($api_key)
         {
             // создание нового ресурса cURL
@@ -73,7 +68,6 @@
                     }
 
                     $hours = (int)($sub / (60 * 60));
-                    //$hours = (int)(($sub - $days * 24 * 60 * 60) / (60 * 60));
                     $min = (int)(($sub - $hours * 60 * 60) / 60) / 100;
 
                     $time_entries = (int)$hours + $min;
@@ -191,9 +185,6 @@
 //                               <td>' . $values['time_entries_new'] . '</td>
 //                               </tr>';
             #============
-
-        //PUT в БД всего затраченного времени
-        //id = 201959  test2
         public function putTimeEntries($api_key)
         {
             $curl = curl_init();
@@ -207,15 +198,6 @@
                             'id_entry' => $values[0]['id'],
                             'id_issue' => $values[0]['issue']['id'],
                             'hours' => $values['hours_new']
-                       // 'id' => 201959,
-                        //'subject' => 'Subject changed', !WORK
-//                        'issue' => array(
-//                            'id' => 201959,
-//                            'subject' => 'Subject changed',
-//                            'notes' => "The subject was changed",
-//                            'token' => '127ab34b4c899c18e8fc663c4ab7f5d6',
-//                        'notes' => 'update времени трудозатрат'
-//                        )
                         ),
                     );
                 }
@@ -252,12 +234,4 @@
                // echo print_r(get_headers(json_encode($curl), 1));
                 return $response;*/
         }
-
-        public function CheckTimeEntries()
-        {
-
-        }
-
-    }
-
 ?>
