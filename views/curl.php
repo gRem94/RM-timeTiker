@@ -140,128 +140,167 @@
 
     </div>
     <script language="JavaScript" type="text/javascript">
-        //объявляем переменные
-        var base = 60;
-        var clocktimer,dateObj,dh,dm,ds,ms;
-        var readout='';
 
+        var base = 60;
+        var clocktimer = [],
+            dateObj,
+            dh = [],
+            dm = [],
+            ds = [];
+        var readout_arr = [];
+        var status_arr = [];
         var hours   = 1,
             min     = 1,
             tmin    = 1,
             second  = 0,
             tsecond = 0,
             mcsecond= 0,
-            status  = 0,
-            idTimer,
-            readout_arr;
+            idTimer;
 
         //Сброс таймера
         function ClearTime()
         {
-            clearTimeout(clocktimer);
-
-            hours    = 1;
-            min      = 1;
-            tmin     = 1;
-            second   = 0;
-            tsecond  = 0;
-            mcsecond = 0;
-            status   = 0; //readout='00:00:00';
-
             for (var i = 0 ; i < document.timerTask.time_entries.length; i++) {
                 if (i == idTimer) {
-//                    readout = '00:00:00';
+                    clearTimeout(clocktimer[i]);
+
+                    hours    = 1;
+                    min      = 1;
+                    tmin     = 1;
+                    second   = 0;
+                    tsecond  = 0;
+                    mcsecond = 0;
+                    status[i]= 0; //readout='00:00:00';
+
 
                     readout_arr[i] = '00:00:00';
 
                     document.timerTask.time_entries[i].value = readout_arr[i];
-//                    console.log(readout[i]);
+                    // console.log(readout[i]);
                 }
             }
         }
 
         //Старт таймера
         function StartTimer() {
-
-            var createDateObj = new Date();
-            var t = (createDateObj.getTime() - dateObj.getTime())-(second*1000);
-            if (t > 999) {
-                second++;
-            }
-            if (second >= (min * base)) {
-                tsecond = 0;
-                min++;
-            } else {
-                tsecond = parseInt((mcsecond / 100) + second);
-                if(tsecond >= base) {
-                    tsecond = tsecond - ((min - 1) * base);
-                }
-            }
-            if (min > (hours * base)) {
-                tmin = 1;
-                hours++;
-            } else {
-                tmin = parseInt((mcsecond / 100) + min);
-                if(tmin >= base) {
-                    tmin = tmin - ((hours - 1) * base);
-                }
-            }
-            mcsecond = Math.round(t/10);
-            if (mcsecond > 99) { mcsecond = 0; }
-            if (mcsecond == 0) { mcsecond = '00'; }
-            if (mcsecond > 0 && mcsecond <= 9) { mcsecond = '0'+ mcsecond; }
-            if (tsecond  > 0) {
-                ds = tsecond;
-
-                if (tsecond < 10) {
-                    ds = '0' + tsecond;
-                }
-            } else {
-                ds = '00';
-            }
-            dm = tmin - 1;
-            if (dm > 0) {
-                if (dm < 10) {
-                    dm = '0'+ dm;
-                }
-            } else {
-                dm = '00';
-            }
-            dh = hours - 1;
-            if (dh > 0) {
-                if (dh < 10) {
-                    dh = '0'+ dh;
-                }
-            } else {
-                dh = '00';
-            }
-
             for (var i = 0 ; i < document.timerTask.time_entries.length; i++) {
                 if (i == idTimer) {
-//                        readout = dh + ':' + dm + ':' + ds;// + '.' + mcsecond;
-                    readout_arr[i] = dh + ':' + dm + ':' + ds;// + '.' + mcsecond;
-
-                    document.timerTask.time_entries[i].value =  readout_arr[i];
-                    //console.log(readout[i]);
+                    var createDateObj = new Date();
+                    var t = (createDateObj.getTime() - dateObj.getTime()) - (second * 1000);
+                    if (t > 999) {
+                        second++;
                     }
-                }
+                    if (second >= (min * base)) {
+                        tsecond = 0;
+                        min++;
+                    } else {
+                        tsecond = parseInt((mcsecond / 100) + second);
+                        if (tsecond >= base) {
+                            tsecond = tsecond - ((min - 1) * base);
+                        }
+                    }
+                    if (min > (hours * base)) {
+                        tmin = 1;
+                        hours++;
+                    } else {
+                        tmin = parseInt((mcsecond / 100) + min);
+                        if (tmin >= base) {
+                            tmin = tmin - ((hours - 1) * base);
+                        }
+                    }
+                    mcsecond = Math.round(t / 10);
+                    if (mcsecond > 99) {
+                        mcsecond = 0;
+                    }
+                    if (mcsecond == 0) {
+                        mcsecond = '00';
+                    }
+                    if (mcsecond > 0 && mcsecond <= 9) {
+                        mcsecond = '0' + mcsecond;
+                    }
+                    if (tsecond > 0) {
+                        ds[i] = tsecond;
 
-            clocktimer = setTimeout("StartTimer()",1);
+                        if (tsecond < 10) {
+                            ds[i] = '0' + tsecond;
+                        }
+                    } else {
+                        ds[i] = '00';
+                    }
+                    dm[i] = tmin - 1;
+                    if (dm[i] > 0) {
+                        if (dm[i] < 10) {
+                            dm[i] = '0' + dm[i];
+                        }
+                    } else {
+                        dm[i] = '00';
+                    }
+                    dh[i] = hours - 1;
+                    if (dh[i] > 0) {
+                        if (dh[i] < 10) {
+                            dh[i] = '0' + dh[i];
+                        }
+                    } else {
+                        dh[i] = '00';
+                    }
+                    if (status_arr[i] == 1) {
+                        readout_arr[i] = dh[i] + ':' + dm[i] + ':' + ds[i];// + '.' + mcsecond;
+                    } else if (status_arr[i] == 2) {
+                        readout_arr[i] = dh[i] + ':' + dm[i] + ':' + ds[i];
+                    }
+
+                    document.timerTask.time_entries[i].value = readout_arr[i];
+
+                    clocktimer[i] = setTimeout("StartTimer()", 1);
+
+                    console.log('timer: ' + readout_arr[i]);
+                }
+            }
         }
         //Старт | стоп
-        function StartStop(id_timer) {
+        function StartPauseTimer(id_timer) {
             idTimer = id_timer;
 
-            if (status == 0){
-                ClearTime();
-
-                dateObj = new Date();
-                StartTimer();
-                status = 1;
-            } else {
-                clearTimeout(clocktimer);
-                status = 0;
+            for(var i = 0; i < document.timerTask.time_entries.length; i++) {
+                if( typeof status_arr !== "undefined" )
+                    status_arr[i] = 0;
             }
+
+
+            for (var i = 0; i < document.timerTask.time_entries.length; i++) {
+                if (i == idTimer) {
+                    if (status_arr[i] == 0) {
+                        ClearTime();
+
+                        dateObj = new Date();
+                        StartTimer();
+                        status_arr[i] = 1;
+                    } else if (status_arr[i] == 1) {
+                        clearTimeout(clocktimer[i]);
+                        status_arr[i] = 2;
+                    } else if (status_arr[i] == 2) {
+
+                        StartTimer();
+                        status_arr[i] = 1;
+                    }
+//                    else {
+//                        status_arr[i] = 0;
+//                    }
+                }
+            }
+            console.log(status_arr);
+        }
+
+        function StopTimer(id_timer) {
+            idTimer = id_timer;
+
+            for (var i = 0; i < document.timerTask.time_entries.length; i++) {
+                if (i == idTimer) {
+                    clearTimeout(clocktimer[i]);
+                    status_arr[i] = 0;
+                }
+            }
+            console.log(status_arr);
         }
 
         /* Вариант для одичноного таймера
