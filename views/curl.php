@@ -183,32 +183,43 @@
             this.stop = function(){
                 clearInterval(object.interval);
                 object.divs.value="00:00:00";
-            }
+                object.seconds = 00;
+                object.minutes = 00;
+                object.hours = 00;
 
-        var idTimer,
-            timer = [];
-            function StartPauseStopTimer(objId, stateId) {
+            }
+        }
+
+        var timer = [];
+            function StartPauseStopTimer(objId) {
 
                 if(!timer[objId])
-                    timer[objId] = new Timer(objId, document.timerTask.time_entries[objId], 00, 00, 00, 1);
+                    timer[objId] = new Timer(objId, document.timerTask.time_entries[objId], 00, 00, 00);
 
 
                 switch (timer[objId].state) {
+//                    case 0:
+//                        timer[objId].stop();
+//                        timer[objId].state = 1;
+//                        break;
                     case 0:
-                        timer[objId].stop();
+                        timer[objId].start();
                         timer[objId].state = 1;
                         break;
                     case 1:
-                        timer[objId].start();
-                        timer[objId].state = 2;
-                        break;
-                    case 2:
                         timer[objId].pause();
-                        timer[objId].state = 1;
+                        timer[objId].state = 0;
                         break;
                 }
                         console.log(timer[objId]);
 
+            }
+
+            function StopTimer(objId) {
+                if(timer[objId]) {
+                    timer[objId].stop();
+                    timer[objId].state = 0;
+                }
             }
     </script>
   </body>
